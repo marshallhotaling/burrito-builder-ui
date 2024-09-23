@@ -2,16 +2,29 @@ import {useEffect, useState} from "react";
 
 function OrderForm(props) {
   const [name, setName] = useState("");
-  const [ingredients, setIngredients] = useState([]);
+  const [ingredients, setIngredients, ] = useState([]);
+
+
+  async function cardPost() {
+      console.log('name', name, 'ing', ingredients)
+      const  dataPost={
+          method:'post',
+          body: {"name": name, "ingredients": ingredients}
+      };
+      const response = await fetch('http://localhost:3001/api/v1/orders', dataPost);
+      const data = await response.json();
+      clearInputs()
+  }
 
   useEffect(() => {
+
 
   }, [ingredients]);
 
   function handleSubmit(e) {
     if (name !== '' && ingredients.length > 0) {
-      console.log('setName', name, 'ing', ingredients)
-
+      console.log('setName', name, 'ing', ingredients);
+        cardPost()
 
       clearInputs();
     } else {
@@ -33,7 +46,6 @@ function OrderForm(props) {
     holder.push(ingredients)
     holder.push(item)
     setIngredients(holder)
-    console.log('ingredients', ingredients)
   }
 
 
